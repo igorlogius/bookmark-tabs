@@ -6,5 +6,5 @@
   "manifest_version": 2,
   "name": "snapshot-tabs",
   "permissions": ["activeTab","tabs","bookmarks"],
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

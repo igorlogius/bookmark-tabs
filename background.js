@@ -1,19 +1,26 @@
 
+// add zero padding
+function pad (val) { return ((val < 10)?"0":"") + val; }
+
 //add listener 
 browser.browserAction.onClicked.addListener(async (tab) => {
 
 	// get timestamp
 	const now = new Date();
-	const date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
-	const time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-	const dateTime = date + ' ' + time;
 
-	// use timestamp as foldername
-	const foldername = dateTime;
+	const YY = now.getFullYear();
+	const MM = pad((now.getMonth()+1));
+	const DD = pad(now.getDate());
+
+	const hh = pad(now.getHours());
+	const mm = pad(now.getMinutes());
+	const ss = pad(now.getSeconds());
+
+	const ts = YY+'-'+MM+'-'+DD+' '+hh+":"+mm+":"+ss;
 
 	// create folder
 	const treenode = await browser.bookmarks.create({ 
-		'title': foldername 
+		'title': ts
 	});
 
 	//on click get all open tabs
