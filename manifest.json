@@ -1,17 +1,9 @@
 {
-  "manifest_version": 2,
-
-  "name": "snapshot tabs as bookmarks",
+  "background": {"scripts": ["background.js"]},
+  "browser_action": {"default_title": "Bookmark Tabs"},
   "description": "saves open tabs into a timestamped bookmark folder",
-  "version": "1.0.0",
-
-  "browser_action": {
-    "default_title": "Bookmark Tabs"
-  },
-  "permissions": [
-    "activeTab","tabs","bookmarks"
-  ],
-  "background": {
-    "scripts": ["background.js"]    
-  }
+  "manifest_version": 2,
+  "name": "snapshot-tabs",
+  "permissions": ["activeTab","tabs","bookmarks"],
+  "version": "1.0.0"
 }
