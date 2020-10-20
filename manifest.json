@@ -3,7 +3,7 @@
 
   "name": "snapshot tabs as bookmarks",
   "description": "saves open tabs into a timestamped bookmark folder",
-  "version": "2.0",
+  "version": "1.0.0",
 
   "browser_action": {
     "default_title": "Bookmark Tabs"
