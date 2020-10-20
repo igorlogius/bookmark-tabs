@@ -15,7 +15,7 @@ ZIPFILE=$(mktemp)
 EXTRDIR=$(mktemp -d)
 
 # download
-wget -q --show-progress 'https://github.com/igorlogius/snapshot-tabs/archive/master.zip' -O $ZIPFILE
+wget -q --show-progress 'https://github.com/igorlogius/snapshot-tabs/archive/main.zip' -O $ZIPFILE
 
 # extract without paths and README
 unzip -j $ZIPFILE -d $EXTRDIR -x "*/README"
