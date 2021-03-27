@@ -2,10 +2,8 @@
 // add zero padding
 function pad (val) { return ((val < 10)?"0":"") + val; }
 
-//add listener 
-browser.browserAction.onClicked.addListener(async (tab) => {
+function getTimeStampStr() {
 
-	// get timestamp
 	const now = new Date();
 
 	const YY = now.getFullYear();
@@ -16,21 +14,41 @@ browser.browserAction.onClicked.addListener(async (tab) => {
 	const mm = pad(now.getMinutes());
 	const ss = pad(now.getSeconds());
 
-	const ts = YY+'-'+MM+'-'+DD+' '+hh+":"+mm+":"+ss;
+	return YY+'-'+MM+'-'+DD+' '+hh+":"+mm+":"+ss;
+}
 
+//add listener 
+browser.browserAction.onClicked.addListener(async (tab) => {
 	// create folder
-	const treenode = await browser.bookmarks.create({ 
-		'title': ts
+	const treenode = await (async ()=> { 
+		try {
+			return await browser.bookmarks.create({'title': getTimeStampStr() });
+		}catch(error){
+			console.error(error);
+			return null;
+		}
+	})();
+	if (treenode === null){return;}
+	// get open tabs
+	const tabs = await (async () => { 
+		try {
+			return await browser.tabs.query({});
+		}catch(error){
+			console.log(error);
+			return null;
+		}
+	})();
+	if(tabs === null){return;}
+	// save each tab into the created folder
+	tabs.forEach( async (tab) => {
+		// only include http and https pages
+		if( /^https?:\/\//.test(tab.url) ){
+			await browser.bookmarks.create({
+				'parentId': treenode.id
+				,'url': tab.url
+			});
+		}
 	});
-
-	//on click get all open tabs
-	const tabs = await browser.tabs.query({});
-
-	tabs.forEach( (tab) => {
-		browser.bookmarks.create({
-			'parentId': treenode.id
-			,'url': tab.url
-		});
-	});
+	//
 });
 
