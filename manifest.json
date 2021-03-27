@@ -9,6 +9,9 @@
     "default_title": "save tabs in timestamped bookmark folder"
   },
   "description": "save tabs in timestamped bookmark folder",
+  "icons": {
+	  "128": "icon.png"
+  },
   "manifest_version": 2,
   "name": "save-tabs-in-timestamped-bookmark-folder",
   "permissions": [
@@ -16,5 +19,5 @@
     "tabs",
     "bookmarks"
   ],
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
