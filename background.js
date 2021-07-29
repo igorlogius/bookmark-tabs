@@ -32,7 +32,7 @@ browser.browserAction.onClicked.addListener(async (tab) => {
 	// get open tabs
 	const tabs = await (async () => { 
 		try {
-			return await browser.tabs.query({});
+			return await browser.tabs.query({hidden: false, currentWindow: true});
 		}catch(error){
 			console.log(error);
 			return null;
