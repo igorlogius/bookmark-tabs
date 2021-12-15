@@ -18,5 +18,12 @@
     "tabs",
     "bookmarks"
   ],
-  "version": "1.0.5"
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+S"
+      }
+    }
+  },
+  "version": "1.1.6"
 }
