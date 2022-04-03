@@ -15,9 +15,14 @@
   "manifest_version": 2,
   "name": "save-tabs-to-bookmark-folder",
   "permissions": [
+    "menus",
     "tabs",
-    "bookmarks"
+    "bookmarks",
+    "storage"
   ],
+  "options_ui": {
+    "page": "options.html"
+  },
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -25,5 +30,5 @@
       }
     }
   },
-  "version": "1.1.6"
+  "version": "1.2.6"
 }
