@@ -101,13 +101,82 @@ async function save() {
     // done
 }
 
+
+async function save_selected() {
+    // get open tabs
+    const tabs = await (async () => {
+        try {
+            // save highlighted tabs
+            return await browser.tabs.query({
+                highlighted: true,
+                /*currentWindow: true,*/
+                url: ["http://*/*", "https://*/*"]
+            });
+        }catch(error){
+            console.log(error);
+            return null;
+        }
+    })();
+    if(tabs === null){return;}
+    if(tabs.length < 1){return;}
+
+    // get or create parent save folder
+    const saveFolderBM = await (async ()=> {
+        const saveFolder = await getFromStorage('saveFolder', 'Saved Tabs')
+        // search
+        try {
+            const arr = await browser.bookmarks.search({'title': saveFolder });
+            if( arr.length > 0){
+                return arr[0];
+            }
+        }catch(error){
+            console.error(error);
+        }
+        // create
+        try {
+            return await browser.bookmarks.create({'title': saveFolder });
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    })();
+    if (saveFolderBM === null){return;}
+
+    // create timestamp save folder
+    let tsBM = await (async ()=> {
+        try {
+            return await browser.bookmarks.create({'parentId': saveFolderBM.id, 'title': getTimeStampStr() });
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    })();
+    if (tsBM === null){return;}
+
+    // save each tab into the created folder
+    tabs.forEach( async (tab) => {
+        await browser.bookmarks.create({
+            'parentId': tsBM.id
+            ,'url': tab.url
+        });
+    });
+    // done
+}
+
 //add listener
 browser.browserAction.onClicked.addListener(save);
 
 browser.menus.create({
-  id: 'save-tabs-to-bookmark-folder',
-  title: 'Save Tabs to Bookmark Folder',
+  id: 'save-tabs-to-bookmark-folder-selected',
+  title: 'Save Selected Tabs to Bookmark Folder',
+  contexts: ["tab"],
+  onclick: save_selected
+});
+
+
+browser.menus.create({
+  id: 'save-tabs-to-bookmark-folder-all',
+  title: 'Save All Tabs to Bookmark Folder',
   contexts: ["all"],
   onclick: save
 });
-
