@@ -109,7 +109,7 @@ async function save_selected() {
             // save highlighted tabs
             return await browser.tabs.query({
                 highlighted: true,
-                /*currentWindow: true,*/
+                currentWindow: true,
                 url: ["http://*/*", "https://*/*"]
             });
         }catch(error){
