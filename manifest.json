@@ -6,9 +6,9 @@
     ]
   },
   "browser_action": {
-    "default_title": "save tabs in timestamped bookmark folder"
+    "default_title": "Save Tabs to Bookmark Folder"
   },
-  "description": "save tabs in timestamped bookmark folder",
+  "description": "save tabs to a timestamped bookmark folder",
   "icons": {
 	  "128": "icon.png"
   },
@@ -18,7 +18,8 @@
     "menus",
     "tabs",
     "bookmarks",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "options_ui": {
     "page": "options.html"
@@ -30,5 +31,5 @@
       }
     }
   },
-  "version": "1.3.7"
+  "version": "1.4.7"
 }

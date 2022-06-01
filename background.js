@@ -1,4 +1,25 @@
 
+const manifest = browser.runtime.getManifest();
+const extname = manifest.name;
+
+async function showNotification(title,message){
+        const options = {
+                "type": "basic",
+                "iconUrl": browser.runtime.getURL("icon.png"),
+                "title": "Save Tabs to Bookmark Folder",
+                "message": message
+        };
+        try {
+                const nID = await browser.notifications.create(extname, options);
+                setTimeout(() => {
+                    browser.notifications.clear(nID);
+                },6*1000);
+        }catch(err){
+                console.error(err);
+        }
+        return null;
+}
+
 async function getFromStorage(storeid,fallback) {
 	return (await (async () => {
 		try {
@@ -34,29 +55,26 @@ function getTimeStampStr() {
 }
 
 async function save() {
-    // get open tabs
+
     const tabs = await (async () => {
         try {
-            // save everything
-            const saveHidden = await getFromStorage('saveHidden', false)
-            if(saveHidden){
-                return await browser.tabs.query({
-                    url: ["http://*/*", "https://*/*"]
-                });
+            let queryObj = {
+                "url": ["http://*/*", "https://*/*"],
+                "currentWindow": true
+            };
+            const includeHidden = await getFromStorage('saveHidden', false);
+            if(includeHidden){
+                queryObj["hidden"] = true;
             }
-            // normally people want to save what they see are focused on
-            return await browser.tabs.query({
-                hidden: false,
-                currentWindow: true,
-                url: ["http://*/*", "https://*/*"]
-            });
+            return await browser.tabs.query(queryObj);
         }catch(error){
             console.log(error);
             return null;
         }
     })();
-    if(tabs === null){return;}
-    if(tabs.length < 1){return;}
+
+    if(tabs === null){return 0;}
+    if(tabs.length < 1){return 0;}
 
     // get or create parent save folder
     const saveFolderBM = await (async ()=> {
@@ -78,7 +96,7 @@ async function save() {
             return null;
         }
     })();
-    if (saveFolderBM === null){return;}
+    if (saveFolderBM === null){return 0;}
 
     // create timestamp save folder
     let tsBM = await (async ()=> {
@@ -89,7 +107,7 @@ async function save() {
             return null;
         }
     })();
-    if (tsBM === null){return;}
+    if (tsBM === null){return 0;}
 
     // save each tab into the created folder
     tabs.forEach( async (tab) => {
@@ -98,85 +116,20 @@ async function save() {
             ,'url': tab.url
         });
     });
-    // done
+    // return amount of bookmarks
+    return tabs.length;
 }
 
-
-async function save_selected() {
-    // get open tabs
-    const tabs = await (async () => {
-        try {
-            // save highlighted tabs
-            return await browser.tabs.query({
-                highlighted: true,
-                currentWindow: true,
-                url: ["http://*/*", "https://*/*"]
-            });
-        }catch(error){
-            console.log(error);
-            return null;
-        }
-    })();
-    if(tabs === null){return;}
-    if(tabs.length < 1){return;}
-
-    // get or create parent save folder
-    const saveFolderBM = await (async ()=> {
-        const saveFolder = await getFromStorage('saveFolder', 'Saved Tabs')
-        // search
-        try {
-            const arr = await browser.bookmarks.search({'title': saveFolder });
-            if( arr.length > 0){
-                return arr[0];
-            }
-        }catch(error){
-            console.error(error);
-        }
-        // create
-        try {
-            return await browser.bookmarks.create({'title': saveFolder });
-        }catch(error){
-            console.error(error);
-            return null;
-        }
-    })();
-    if (saveFolderBM === null){return;}
-
-    // create timestamp save folder
-    let tsBM = await (async ()=> {
-        try {
-            return await browser.bookmarks.create({'parentId': saveFolderBM.id, 'title': getTimeStampStr() });
-        }catch(error){
-            console.error(error);
-            return null;
-        }
-    })();
-    if (tsBM === null){return;}
-
-    // save each tab into the created folder
-    tabs.forEach( async (tab) => {
-        await browser.bookmarks.create({
-            'parentId': tsBM.id
-            ,'url': tab.url
-        });
-    });
-    // done
+async function saveAll(){
+    const nbtabs = await save();
+    showNotification("", "#Tabs Saved: " + nbtabs);
 }
 
-//add listener
-browser.browserAction.onClicked.addListener(save);
-
 browser.menus.create({
-  id: 'save-tabs-to-bookmark-folder-selected',
-  title: 'Save Selected Tabs to Bookmark Folder',
-  contexts: ["tab"],
-  onclick: save_selected
+  title: 'Save Tabs to Bookmark Folder',
+  contexts: ["all", "tab"],
+  onclick: saveAll
 });
 
+browser.browserAction.onClicked.addListener(saveAll);
 
-browser.menus.create({
-  id: 'save-tabs-to-bookmark-folder-all',
-  title: 'Save All Tabs to Bookmark Folder',
-  contexts: ["all"],
-  onclick: save
-});
