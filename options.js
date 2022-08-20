@@ -1,8 +1,9 @@
+/* global browser */
 
 function onChange(evt) {
 
-	id = evt.target.id;
-	el = document.getElementById(id);
+	let id = evt.target.id;
+	let el = document.getElementById(id);
 
 	let value = ( (el.type === 'checkbox') ? el.checked : el.value)
 	let obj = {}
@@ -14,7 +15,7 @@ function onChange(evt) {
 	if(el.type === 'number'){
 		try {
 			value = parseInt(value);
-			if(value === NaN){
+			if(isNaN(value)){
 				value = el.min;
 			}
 			if(value < el.min) {
@@ -26,7 +27,7 @@ function onChange(evt) {
 	}
 
 	obj[id] = value;
-	console.log("Changed:", id,value);
+
 	browser.storage.local.set(obj).catch(console.error);
 }
 
@@ -34,8 +35,8 @@ function onChange(evt) {
 
 	browser.storage.local.get(id).then( (obj) => {
 
-		el = document.getElementById(id);
-		val = obj[id];
+		let el = document.getElementById(id);
+		let val = obj[id];
 
 		if(typeof val !== 'undefined') {
 			if(el.type === 'checkbox') {
@@ -46,16 +47,10 @@ function onChange(evt) {
 			}
 		}
 
-	}).catch( (err) => {} );
+	}).catch( console.error );
 
-	el = document.getElementById(id);
+	let el = document.getElementById(id);
 	el.addEventListener('click', onChange);
 	el.addEventListener('keyup', onChange);
-	/*el.addEventListener('keypress',
-		function allowOnlyNumbers(event) {
-			if (event.key.length === 1 && /\D/.test(event.key)) {
-				event.preventDefault();
-			}
-		});*/
 });
 

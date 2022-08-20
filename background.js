@@ -1,3 +1,4 @@
+/* global browser */
 
 const manifest = browser.runtime.getManifest();
 const extname = manifest.name;
