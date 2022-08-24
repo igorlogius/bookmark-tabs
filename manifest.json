@@ -6,14 +6,12 @@
     ]
   },
   "browser_action": {
-    "default_title": "Save Tabs to Bookmark Folder"
   },
-  "description": "Save tabs to a timestamped bookmark folder",
   "icons": {
 	  "128": "icon.png"
   },
   "manifest_version": 2,
-  "name": "Save Tabs to Bookmark Folder",
+  "name": "Save Tabs To Bookmark Folder",
   "permissions": [
     "menus",
     "tabs",
@@ -31,5 +29,5 @@
       }
     }
   },
-  "version": "1.4.8"
+  "version": "1.4.9"
 }
