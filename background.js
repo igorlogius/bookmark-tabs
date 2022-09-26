@@ -2,6 +2,7 @@
 
 const manifest = browser.runtime.getManifest();
 const extname = manifest.name;
+let multipleHighlighted = false;
 
 async function showNotification(title,message){
         const options = {
@@ -66,6 +67,9 @@ async function save() {
             const includeHidden = await getFromStorage('saveHidden', false);
             if(includeHidden){
                 queryObj["hidden"] = true;
+            }
+            if(multipleHighlighted) {
+                queryObj["highlighted"] = true;
             }
             return await browser.tabs.query(queryObj);
         }catch(error){
@@ -134,3 +138,9 @@ browser.menus.create({
 
 browser.browserAction.onClicked.addListener(saveAll);
 
+function handleHighlighted(highlightInfo) {
+    multipleHighlighted = (highlightInfo.tabIds.length > 1);
+    console.log('multipleHighlighted', multipleHighlighted);
+}
+
+browser.tabs.onHighlighted.addListener(handleHighlighted);
