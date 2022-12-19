@@ -26,7 +26,6 @@ async function getFromStorage(storeid,fallback) {
 	return (await (async () => {
 		try {
 			let tmp = await browser.storage.local.get(storeid);
-			console.log(JSON.stringify(tmp));
 			if (typeof tmp[storeid] !== 'undefined'){
 				return tmp[storeid];
 
@@ -72,8 +71,8 @@ async function save() {
                 queryObj["highlighted"] = true;
             }
             return await browser.tabs.query(queryObj);
-        }catch(error){
-            console.log(error);
+        }catch(e){
+            console.error(e);
             return null;
         }
     })();
@@ -90,14 +89,14 @@ async function save() {
             if( arr.length > 0){
                 return arr[0];
             }
-        }catch(error){
-            console.error(error);
+        }catch(e){
+            console.error(e);
         }
         // create
         try {
             return await browser.bookmarks.create({'title': saveFolder });
-        }catch(error){
-            console.error(error);
+        }catch(e){
+            console.error(e);
             return null;
         }
     })();
@@ -107,8 +106,8 @@ async function save() {
     let tsBM = await (async ()=> {
         try {
             return await browser.bookmarks.create({'parentId': saveFolderBM.id, 'title': getTimeStampStr() });
-        }catch(error){
-            console.error(error);
+        }catch(e){
+            console.error(e);
             return null;
         }
     })();
@@ -140,7 +139,6 @@ browser.browserAction.onClicked.addListener(saveAll);
 
 function handleHighlighted(highlightInfo) {
     multipleHighlighted = (highlightInfo.tabIds.length > 1);
-    console.log('multipleHighlighted', multipleHighlighted);
 }
 
 browser.tabs.onHighlighted.addListener(handleHighlighted);
