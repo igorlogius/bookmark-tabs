@@ -63,10 +63,6 @@ async function save() {
                 "url": ["http://*/*", "https://*/*"],
                 "currentWindow": true
             };
-            const includeHidden = await getFromStorage('saveHidden', false);
-            if(includeHidden){
-                queryObj["hidden"] = true;
-            }
             if(multipleHighlighted) {
                 queryObj["highlighted"] = true;
             }
@@ -129,12 +125,6 @@ async function saveAll(){
     showNotification("", "#Tabs Saved: " + nbtabs);
 }
 
-browser.menus.create({
-  title: 'Save Tabs to Bookmark Folder',
-  contexts: ["all", "tab"],
-  onclick: saveAll
-});
-
 browser.browserAction.onClicked.addListener(saveAll);
 
 function handleHighlighted(highlightInfo) {
@@ -142,3 +132,4 @@ function handleHighlighted(highlightInfo) {
 }
 
 browser.tabs.onHighlighted.addListener(handleHighlighted);
+

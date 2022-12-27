@@ -8,7 +8,7 @@ function onChange(evt) {
 	let value = ( (el.type === 'checkbox') ? el.checked : el.value)
 	let obj = {}
 
-	console.log(id, value, el.type);
+	//console.log(id, value, el.type);
 	if(value === ""){
 		return;
 	}
