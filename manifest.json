@@ -1,24 +1,17 @@
 {
   "author": "igorlogius",
-  "homepage_url": "https://github.com/igorlogius/save-tabs-to-bookmark-folder",
+  "homepage_url": "https://github.com/igorlogius/bookmark-tabs",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   },
-  "browser_action": {
-  },
+  "browser_action": {},
+  "description": "Saves selected or all tabs into a timestamped bookmark folder for later use",
   "icons": {
-	  "128": "icon.png"
+    "128": "icon.png"
   },
   "manifest_version": 2,
-  "name": "Save Tabs To Bookmark Folder",
-  "permissions": [
-    "tabs",
-    "bookmarks",
-    "storage",
-    "notifications"
-  ],
+  "name": "Bookmark Tabs",
+  "permissions": ["tabs", "bookmarks", "storage", "notifications"],
   "options_ui": {
     "page": "options.html"
   },
@@ -29,5 +22,6 @@
       }
     }
   },
-  "version": "1.5.11"
+  "default_area": "navbar",
+  "version": "1.5.12"
 }
