@@ -4,7 +4,9 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "browser_action": {},
+  "browser_action": {
+  	"default_area": "navbar"
+  },
   "description": "Saves selected or all tabs into a timestamped bookmark folder for later use",
   "icons": {
     "128": "icon.png"
@@ -22,6 +24,5 @@
       }
     }
   },
-  "default_area": "navbar",
-  "version": "1.5.12"
+  "version": "1.5.13"
 }
