@@ -122,10 +122,14 @@ async function save() {
 
   // save each tab into the created folder
   tabs.forEach(async (tab) => {
-    await browser.bookmarks.create({
+    let bmCreateData = {
       parentId: tsBM.id,
       url: tab.url,
-    });
+    };
+    if (typeof tab.title === "string" && tab.title.trim() !== "") {
+      bmCreateData["title"] = tab.title;
+    }
+    await browser.bookmarks.create(bmCreateData);
   });
   // return amount of bookmarks
   return tabs.length;
