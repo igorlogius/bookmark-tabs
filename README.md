@@ -1,5 +1,7 @@
 Saves selected or all tabs into a timestamped bookmark folder for later use
 
+https://github.com/igorlogius/bookmark-tabs/assets/67047467/aa699ece-205c-47d0-b3c3-f010c9a1d32b
+
 <b>Usage:</b>
 <ul>
 	<li>click the toolbar icon or use the shortcut (CTRL+ALT+S, can be changed/customized)</li>
