@@ -4,11 +4,29 @@ const manifest = browser.runtime.getManifest();
 const extname = manifest.name;
 let multipleHighlighted = false;
 
-async function getFromStorage(storeid, fallback) {
+async function notify(message, iconUrl = "icon.png") {
+  try {
+    const n = await browser.notifications.create("" + Date.now(), {
+      type: "basic",
+      iconUrl,
+      title: extname,
+      message,
+    });
+
+    setTimeout(() => {
+      browser.notifications.clear(n);
+    }, 3000);
+  } catch (e) {
+    // noop
+  }
+}
+
+async function getFromStorage(expectedtype, storeid, fallback) {
   return await (async () => {
     try {
       let tmp = await browser.storage.local.get(storeid);
-      if (typeof tmp[storeid] !== "undefined") {
+      //console.debug(storeid, tmp);
+      if (typeof tmp[storeid] === expectedtype) {
         return tmp[storeid];
       }
     } catch (e) {
@@ -62,25 +80,23 @@ async function save() {
     return 0;
   }
 
-  // get or create parent save folder
+  // get or save Folder
   const saveFolderBM = await (async () => {
-    const saveFolder = await getFromStorage("saveFolder", "Saved Tabs");
+    const saveFolderId = await getFromStorage(
+      "string",
+      "saveFolder",
+      "unfiled_____"
+    );
     // search
     try {
-      const arr = await browser.bookmarks.search({ title: saveFolder });
+      const arr = await browser.bookmarks.get(saveFolderId);
       if (arr.length > 0) {
         return arr[0];
       }
     } catch (e) {
       console.error(e);
     }
-    // create
-    try {
-      return await browser.bookmarks.create({ title: saveFolder });
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
+    return null;
   })();
   if (saveFolderBM === null) {
     return 0;
@@ -120,6 +136,7 @@ async function save() {
 async function saveAll() {
   await browser.browserAction.disable();
   const nbtabs = await save();
+  notify("Saved " + nbtabs + " Tabs");
   setTimeout(() => {
     browser.browserAction.enable();
   }, 3000);

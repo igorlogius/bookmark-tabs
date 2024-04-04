@@ -3,22 +3,31 @@
   <title></title>
   <style>
     body {
-      margin: 0;
       padding: 1%;
       height: 600px;
     }
-    #saveFolders {
-      margin: 0;
-      padding: 0;
+    #saveFolder {
       width: 100%;
     }
   </style>
 </head>
 <body>
   <fieldset>
-    <select id="saveFolders">
-      <option value="">Select Parent Save Folder (optional)</option>
-    </select>
+    <b>Change Save Folder</b>
+    <p>
+      <select id="saveFolder"></select>
+    </p>
   </fieldset>
+
+  <fieldset>
+    <b>Optional permissions for added functionality</b>
+    <ul>
+      <li>
+        Grant the <b>"Display notifications to you"</b> Permission to enable
+        notifications
+      </li>
+    </ul>
+  </fieldset>
+
   <script src="options.js"></script>
 </body>

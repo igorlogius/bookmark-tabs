@@ -12,7 +12,7 @@ function onChange(evt) {
   let value = el.type === "checkbox" ? el.checked : el.value;
   let obj = {};
 
-  console.log(id, value, el.type);
+  //console.log(id, value, el.type);
   if (value === "") {
     return;
   }
@@ -35,7 +35,7 @@ function onChange(evt) {
   browser.storage.local.set(obj).catch(console.error);
 }
 
-["saveFolders"].map((id) => {
+["saveFolder"].map((id) => {
   browser.storage.local
     .get(id)
     .then((obj) => {
@@ -49,12 +49,12 @@ function onChange(evt) {
           el.value = val;
         }
       }
-      el.addEventListener("change", onChange);
+      el.addEventListener("input", onChange);
     })
     .catch(console.error);
 });
 
-let folders = document.getElementById("saveFolders");
+let folders = document.getElementById("saveFolder");
 
 function recGetFolders(node, depth = 0) {
   let out = new Map();
@@ -72,22 +72,27 @@ function recGetFolders(node, depth = 0) {
 }
 
 async function initSelect() {
-  console.debug("initSelect");
+  //console.debug("initSelect");
   const nodes = await browser.bookmarks.getTree();
   let out = new Map();
   let depth = 1;
   for (const node of nodes) {
     out = new Map([...out, ...recGetFolders(node, depth)]);
   }
-  let tmp = await getFromStorage("string", "saveFolder", "");
+  let tmp = await getFromStorage("string", "saveFolder", "unfiled_____");
   let last_val = "";
   for (const [k, v] of out) {
-    console.debug(v.title);
+    //console.debug(v.title, k, tmp);
     //folders.add(new Option("-".repeat(v.depth) + " " + v.title, k));
-    folders.add(new Option(v.title  + " (L" + (v.depth-1) + ")", k ) );
+    //folders.add(new Option(v.title + " (L" + (v.depth - 1) + ")", k));
+    o = new Option(v.title, k);
+    folders.add(o);
     if (k === tmp) {
+      //o.selected = true;
       last_val = k;
-    }
+    } /*else{
+        o.selected = false;
+    }*/
   }
   folders.value = last_val;
 }
