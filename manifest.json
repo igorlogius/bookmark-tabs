@@ -1,6 +1,6 @@
 {
   "author": "igorlogius",
-  "homepage_url": "https://github.com/igorlogius/bookmark-tabs",
+  "homepage_url": "https://github.com/igorlogius",
   "background": {
     "scripts": ["background.js"]
   },
@@ -13,16 +13,13 @@
   },
   "manifest_version": 2,
   "name": "Bookmark Tabs",
-  "permissions": ["tabs", "bookmarks", "storage", "notifications"],
+  "permissions": ["tabs", "bookmarks", "storage"],
+  "optional_permissions": ["notifications"],
   "options_ui": {
     "page": "options.html"
   },
   "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Ctrl+Alt+S"
-      }
-    }
+    "_execute_browser_action": {}
   },
-  "version": "1.5.15"
+  "version": "1.5.16"
 }

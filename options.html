@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <head>
   <title></title>
+  <style>
+    body {
+      margin: 0;
+      padding: 1%;
+      height: 600px;
+    }
+    #saveFolders {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <span
-    >Enter parent folder name:<input
-      type="text"
-      id="saveFolder"
-      value=""
-      placeholder="None"
-  /></span>
+  <fieldset>
+    <select id="saveFolders">
+      <option value="">Select Parent Save Folder (optional)</option>
+    </select>
+  </fieldset>
   <script src="options.js"></script>
 </body>

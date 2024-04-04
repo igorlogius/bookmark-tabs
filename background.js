@@ -4,24 +4,6 @@ const manifest = browser.runtime.getManifest();
 const extname = manifest.name;
 let multipleHighlighted = false;
 
-async function showNotification(title, message) {
-  const options = {
-    type: "basic",
-    iconUrl: browser.runtime.getURL("icon.png"),
-    title: "Bookmark Tabs",
-    message: message,
-  };
-  try {
-    const nID = await browser.notifications.create(extname, options);
-    setTimeout(() => {
-      browser.notifications.clear(nID);
-    }, 6 * 1000);
-  } catch (err) {
-    console.error(err);
-  }
-  return null;
-}
-
 async function getFromStorage(storeid, fallback) {
   return await (async () => {
     try {
@@ -136,8 +118,11 @@ async function save() {
 }
 
 async function saveAll() {
+  await browser.browserAction.disable();
   const nbtabs = await save();
-  showNotification("", "#Tabs Saved: " + nbtabs);
+  setTimeout(() => {
+    browser.browserAction.enable();
+  }, 3000);
 }
 
 browser.browserAction.onClicked.addListener(saveAll);
