@@ -1,25 +1,23 @@
-Saves selected or all tabs into a timestamped bookmark folder for later use in a
-timestamped folder, witout asking for a foldername like with the CTRL+SHIFT+D
-shortcut
+Saves selected or all tabs into a timestamped bookmark folder
 
 ### [Click here to report a bug, make a suggestion or ask a question](https://github.com/igorlogius/igorlogius/issues/new/choose)
 
 <b>Short Demo Video:</b>
 
-https://github.com/igorlogius/bookmark-tabs/assets/67047467/aa699ece-205c-47d0-b3c3-f010c9a1d32b
+https://github.com/igorlogius/bookmark-tabs/assets/67047467/64555139-0927-45ce-b18d-01f03f0406bc
 
-<b>Usage:</b>
+<b>Usage/Features</b>
 <ul>
   <li>
-    click the toolbar icon or use the shortcut (CTRL+ALT+S, can be
-    changed/customized)
+    click the toolbar button to open the verbose option save panel
   </li>
   <li>
-    the timestamped bookmark folder will be added inside of the "Other
-    Bookmarks" Folder
+    select multiple tabs to only save the these  
+  </li>
+  <li>
+    enable notifications via optional permission
+  </li>
+  <li>
+    set custom shortcuts to open the panel or immediately bookmark tabs
   </li>
 </ul>
-
-<b>Saving selected tabs:</b>
-When you highlight/select multiple tabs, clicking the toolbar icon or using the
-shortcut will only save the selected tabs.
