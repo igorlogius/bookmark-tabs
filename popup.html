@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title></title>
+  <meta charset="utf-8" />
   <style>
     body {
       background: lightgray;
@@ -12,33 +12,39 @@
     #savebtn {
       float: right;
     }
+    #closeAfterSave {
+    }
   </style>
 </head>
 <body>
-  <fieldset>
-    <b>Save folder postfix title</b>
-    <p>
-      <input
-        type="text"
-        id="postfix"
-        placeholder="Tabs Group Name / ID / Keywords"
-        autofocus
-      />
-    </p>
-  </fieldset>
-
-  <fieldset>
-    <b>Change Save Folder (optional)</b>
-    <p>
-      <select id="saveFolder"></select>
-    </p>
-  </fieldset>
-
-  <fieldset>
-    <button id="savebtn"><b>Bookmark Tabs!</b></button>
-  </fieldset>
-
   <small>
+    <fieldset>
+      <b>Save folder postfix title</b>
+      <p>
+        <input
+          type="text"
+          id="postfix"
+          placeholder="Tabs Group Name / ID / Keywords"
+          autofocus
+        />
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>⚠️Persistent options</legend>
+      <b>Base Save Folder</b>
+      <p>
+        <select id="saveFolder"></select>
+      </p>
+
+      <b>Close Tabs After Save?</b>
+      <input type="checkbox" id="closeAfterSave" />
+    </fieldset>
+
+    <fieldset>
+      <button id="savebtn"><b>Bookmark Tabs!</b></button>
+    </fieldset>
+
     <fieldset>
       <b>Hint:</b>
       <br />

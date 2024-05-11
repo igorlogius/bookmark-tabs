@@ -81,6 +81,12 @@ async function save() {
     return 0;
   }
 
+  const closeAfterSave = await getFromStorage(
+    "boolean",
+    "closeAfterSave",
+    false
+  );
+
   // get or save Folder
   const saveFolderBM = await (async () => {
     const saveFolderId = await getFromStorage(
@@ -129,6 +135,9 @@ async function save() {
       bmCreateData["title"] = tab.title;
     }
     await browser.bookmarks.create(bmCreateData);
+    if (closeAfterSave) {
+      browser.tabs.remove(tab.id);
+    }
   });
   // return amount of bookmarks
   return tabs.length;

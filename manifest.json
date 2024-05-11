@@ -17,7 +17,8 @@
   "permissions": ["tabs", "bookmarks", "storage"],
   "optional_permissions": ["notifications"],
   "commands": {
+    "_execute_browser_action": {},
     "bookmark-tabs": {}
   },
-  "version": "1.6.17"
+  "version": "1.6.18"
 }

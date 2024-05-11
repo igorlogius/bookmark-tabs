@@ -35,7 +35,7 @@ function onChange(evt) {
   browser.storage.local.set(obj).catch(console.error);
 }
 
-["saveFolder"].map((id) => {
+["saveFolder", "closeAfterSave"].map((id) => {
   browser.storage.local
     .get(id)
     .then((obj) => {
@@ -101,16 +101,19 @@ async function onLoad() {
   await initSelect();
 
   document.getElementById("savebtn").addEventListener("click", async (el) => {
-    //el.setAttribute('disabled','');
-
     await browser.runtime.sendMessage({
       cmd: "bookmark-tabs",
       postfix: document.getElementById("postfix").value,
     });
+  });
 
-    //el.removeAttribute('disabled');
-
-    //window.close();
+  document.getElementById("postfix").addEventListener("keyup", async (el) => {
+    if (el.key === "Enter") {
+      await browser.runtime.sendMessage({
+        cmd: "bookmark-tabs",
+        postfix: document.getElementById("postfix").value,
+      });
+    }
   });
 }
 
