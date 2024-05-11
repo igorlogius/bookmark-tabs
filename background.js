@@ -3,6 +3,7 @@
 const manifest = browser.runtime.getManifest();
 const extname = manifest.name;
 let multipleHighlighted = false;
+let postfix = "";
 
 async function notify(message, iconUrl = "icon.png") {
   try {
@@ -107,7 +108,7 @@ async function save() {
     try {
       return await browser.bookmarks.create({
         parentId: saveFolderBM.id,
-        title: getTimeStampStr(),
+        title: getTimeStampStr() + " " + postfix,
       });
     } catch (e) {
       console.error(e);
@@ -142,10 +143,28 @@ async function saveAll() {
   }, 3000);
 }
 
-browser.browserAction.onClicked.addListener(saveAll);
+//browser.browserAction.onClicked.addListener(saveAll);
 
 function handleHighlighted(highlightInfo) {
   multipleHighlighted = highlightInfo.tabIds.length > 1;
 }
 
 browser.tabs.onHighlighted.addListener(handleHighlighted);
+
+browser.commands.onCommand.addListener(async (command) => {
+  if (command === "bookmark-tabs") {
+    saveAll();
+  }
+});
+
+browser.runtime.onMessage.addListener(async (data, sender) => {
+  console.debug(data);
+
+  if (data.cmd === "bookmark-tabs") {
+    postfix = data.postfix.trim();
+    await saveAll();
+    postfix = "";
+    //return Promise.resolve("done");
+  }
+  //return false;
+});

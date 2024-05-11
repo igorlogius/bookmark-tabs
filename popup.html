@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+  <title></title>
+  <style>
+    body {
+      background: lightgray;
+    }
+    #saveFolder,
+    #postfix {
+      width: 100%;
+    }
+    #savebtn {
+      float: right;
+    }
+  </style>
+</head>
+<body>
+  <fieldset>
+    <b>Save folder postfix title</b>
+    <p>
+      <input
+        type="text"
+        id="postfix"
+        placeholder="Tabs Group Name / ID / Keywords"
+        autofocus
+      />
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <b>Change Save Folder (optional)</b>
+    <p>
+      <select id="saveFolder"></select>
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <button id="savebtn"><b>Bookmark Tabs!</b></button>
+  </fieldset>
+
+  <small>
+    <fieldset>
+      <b>Hint:</b>
+      <br />
+      - enable notification via optional permissions
+      <br />
+      - use the custom shortcut, to skip this popup
+    </fieldset>
+  </small>
+
+  <script src="popup.js"></script>
+</body>

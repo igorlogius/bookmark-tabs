@@ -99,6 +99,19 @@ async function initSelect() {
 
 async function onLoad() {
   await initSelect();
+
+  document.getElementById("savebtn").addEventListener("click", async (el) => {
+    //el.setAttribute('disabled','');
+
+    await browser.runtime.sendMessage({
+      cmd: "bookmark-tabs",
+      postfix: document.getElementById("postfix").value,
+    });
+
+    //el.removeAttribute('disabled');
+
+    //window.close();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", onLoad);
