@@ -14,11 +14,11 @@
   },
   "manifest_version": 2,
   "name": "Bookmark Tabs",
-  "permissions": ["tabs", "bookmarks", "storage"],
+  "permissions": ["menus", "tabs", "bookmarks", "storage"],
   "optional_permissions": ["notifications"],
   "commands": {
     "_execute_browser_action": {},
     "bookmark-tabs": {}
   },
-  "version": "1.6.18"
+  "version": "1.6.19"
 }

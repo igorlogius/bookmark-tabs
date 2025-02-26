@@ -84,7 +84,7 @@ async function save() {
   const closeAfterSave = await getFromStorage(
     "boolean",
     "closeAfterSave",
-    false
+    false,
   );
 
   // get or save Folder
@@ -92,7 +92,7 @@ async function save() {
     const saveFolderId = await getFromStorage(
       "string",
       "saveFolder",
-      "unfiled_____"
+      "unfiled_____",
     );
     // search
     try {
@@ -176,4 +176,10 @@ browser.runtime.onMessage.addListener(async (data, sender) => {
     //return Promise.resolve("done");
   }
   //return false;
+});
+
+browser.menus.create({
+  title: extname,
+  contexts: ["tab"],
+  onclick: saveAll,
 });
