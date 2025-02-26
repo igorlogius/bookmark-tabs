@@ -87,6 +87,12 @@ async function save() {
     false,
   );
 
+  const noTimestampSubfolder = await getFromStorage(
+    "boolean",
+    "noTimestampSubfolder",
+    false,
+  );
+
   // get or save Folder
   const saveFolderBM = await (async () => {
     const saveFolderId = await getFromStorage(
@@ -109,38 +115,58 @@ async function save() {
     return 0;
   }
 
-  // create timestamp save folder
-  let tsBM = await (async () => {
-    try {
-      return await browser.bookmarks.create({
+  if (noTimestampSubfolder) {
+    // save each tab into the created folder
+    tabs.forEach(async (tab) => {
+      let bmCreateData = {
         parentId: saveFolderBM.id,
-        title: getTimeStampStr() + " " + postfix,
-      });
-    } catch (e) {
-      console.error(e);
-      return null;
+        url: tab.url,
+      };
+      if (typeof tab.title === "string" && tab.title.trim() !== "") {
+        bmCreateData["title"] = tab.title;
+      }
+      await browser.bookmarks.create(bmCreateData);
+      if (closeAfterSave) {
+        browser.tabs.remove(tab.id);
+      }
+    });
+    // return amount of bookmarks
+    return tabs.length;
+  } else {
+    // create timestamp save folder
+    let tsBM = await (async () => {
+      try {
+        return await browser.bookmarks.create({
+          parentId: saveFolderBM.id,
+          title: getTimeStampStr() + " " + postfix,
+        });
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    })();
+    if (tsBM === null) {
+      return 0;
     }
-  })();
-  if (tsBM === null) {
-    return 0;
-  }
 
-  // save each tab into the created folder
-  tabs.forEach(async (tab) => {
-    let bmCreateData = {
-      parentId: tsBM.id,
-      url: tab.url,
-    };
-    if (typeof tab.title === "string" && tab.title.trim() !== "") {
-      bmCreateData["title"] = tab.title;
-    }
-    await browser.bookmarks.create(bmCreateData);
-    if (closeAfterSave) {
-      browser.tabs.remove(tab.id);
-    }
-  });
-  // return amount of bookmarks
-  return tabs.length;
+    // save each tab into the created folder
+    tabs.forEach(async (tab) => {
+      let bmCreateData = {
+        parentId: tsBM.id,
+        url: tab.url,
+      };
+      if (typeof tab.title === "string" && tab.title.trim() !== "") {
+        bmCreateData["title"] = tab.title;
+      }
+      await browser.bookmarks.create(bmCreateData);
+      if (closeAfterSave) {
+        browser.tabs.remove(tab.id);
+      }
+    });
+    // return amount of bookmarks
+    return tabs.length;
+  }
+  return 0;
 }
 
 async function saveAll() {
