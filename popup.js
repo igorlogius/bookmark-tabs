@@ -105,6 +105,7 @@ async function onLoad() {
       cmd: "bookmark-tabs",
       postfix: document.getElementById("postfix").value,
     });
+    window.close();
   });
 
   document.getElementById("postfix").addEventListener("keyup", async (el) => {
@@ -113,8 +114,13 @@ async function onLoad() {
         cmd: "bookmark-tabs",
         postfix: document.getElementById("postfix").value,
       });
+      window.close();
     }
   });
+
+  setTimeout(() => {
+    document.getElementById("postfix").focus();
+  }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", onLoad);

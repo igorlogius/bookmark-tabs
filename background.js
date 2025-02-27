@@ -178,8 +178,6 @@ async function saveAll() {
   }, 3000);
 }
 
-//browser.browserAction.onClicked.addListener(saveAll);
-
 function handleHighlighted(highlightInfo) {
   multipleHighlighted = highlightInfo.tabIds.length > 1;
 }
@@ -193,19 +191,17 @@ browser.commands.onCommand.addListener(async (command) => {
 });
 
 browser.runtime.onMessage.addListener(async (data, sender) => {
-  console.debug(data);
-
   if (data.cmd === "bookmark-tabs") {
     postfix = data.postfix.trim();
     await saveAll();
     postfix = "";
-    //return Promise.resolve("done");
   }
-  //return false;
 });
 
 browser.menus.create({
   title: extname,
   contexts: ["tab"],
-  onclick: saveAll,
+  onclick: async () => {
+    browser.browserAction.openPopup();
+  },
 });
